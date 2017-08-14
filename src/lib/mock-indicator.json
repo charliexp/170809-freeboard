@@ -1,0 +1,54 @@
+indicatorCallback([
+  {
+    "service": "Facebook",
+    "user": 8811002,
+    "userRate": 2.1,
+    "stayTime": 167.98,
+    "stayRate": 1.4,
+    "averReVisit": 5.19,
+    "averReVisitRate": -0.6,
+    "averExec": 51.5,
+    "averExecRate": -1.8,
+    "totalStayTime": 1446435,
+    "totalStayTimeRate": 3.5
+  },
+  {
+    "service": "카카오스토리",
+    "user": 9151020,
+    "userRate": 0.9,
+    "stayTime": 30.94,
+    "stayRate": 5.6,
+    "averReVisit": 3.28,
+    "averReVisitRate": -1.8,
+    "averExec": 15.84,
+    "averExecRate": 2.1,
+    "totalStayTime": 283169,
+    "totalStayTimeRate": 6.6
+  },
+  {
+    "service": "밴드",
+    "user": 12226529,
+    "userRate": -0.4,
+    "stayTime": 42.9,
+    "stayRate": -0.1,
+    "averReVisit": 4.24,
+    "averReVisitRate": 0.7,
+    "averExec": 25.69,
+    "averExecRate": -0.1,
+    "totalStayTime": 524503,
+    "totalStayTimeRate": -0.5
+  },
+  {
+    "service": "Instagram",
+    "user": 4943743,
+    "userRate": 2,
+    "stayTime": 65.93,
+    "stayRate": 8.8,
+    "averReVisit": 4.23,
+    "averReVisitRate": 1.6,
+    "averExec": 31.88,
+    "averExecRate": 5.2,
+    "totalStayTime": 325944,
+    "totalStayTimeRate": 10.9
+  }
+])

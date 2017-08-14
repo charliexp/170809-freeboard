@@ -1,0 +1,59 @@
+#header {
+  background-color: #2C3E50;
+}
+#header .title {
+  height: 85px;
+  display: inline-block;
+}
+#header .title .app-logo {
+  animation: app-logo-spin infinite 20s linear;
+  width: 80px;
+  height: 80px;
+  background-image: url(../images/logo.svg);
+  background-size: 100% 100%;
+  margin: 0 auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -10px;
+}
+#header .title .logo {
+  animation: app-logo-spin infinite 20s linear;
+  width: 80px;
+  height: 80px;
+  background-image: url(../images/logo.svg);
+  background-size: 100% 100%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -10px;
+}
+#header .title .service {
+  display: inline-block;
+  color: white;
+  font-size: 2em;
+  margin-top: 20px;
+  font-weight: bold;
+}
+#header .navi {
+  width: 100%;
+  text-align: center;
+  display: table;
+}
+#header .navi a {
+  display: table-cell;
+  color: white;
+  text-decoration: none;
+  padding: 15px;
+  font-size: 18px;
+  background-color: #E74C3C;
+}
+#header .navi a:hover {
+  background-color: #FF6B5C;
+}
+#header .navi a.on {
+  background-color: #A7372B;
+}
+
+@keyframes app-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
