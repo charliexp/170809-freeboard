@@ -45,7 +45,8 @@ module.exports = {
         if (err) throw err;
         console.log('글 데이터 추가함.');
         return res.json({
-          success: true
+          success: true,
+          id: result._id
         });
       });
     } else {
@@ -53,11 +54,12 @@ module.exports = {
     }
   },
 
-  // [get] http://localhost:3000/api/read/:id
+  // [get] http://localhost:3000/api/read/:id/:type
   read: function(req, res) {
     console.log('[get] /api/read 호출됨.');
 
     var id = req.body.id || req.query.id || req.params.id;
+    var type = req.body.type || req.query.type || req.params.type || 'read';
     var database = req.app.get('database');
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -66,8 +68,14 @@ module.exports = {
       });
     }
 
+    if (typeof type !== 'string' || type.trim() === '') {
+      return res.status(400).json({
+        error: '타입을 지정해주세요. read or modify'
+      });
+    }
+
     if(database.db) {
-      database.BoardModel.read(id, function(err, results) {
+      database.BoardModel.read(id, type, function(err, results) {
         if (err) {
           console.error('게시판 글 조회 중 오류 발생: ' + err.stack);
           return res.status(500).json({
@@ -90,7 +98,7 @@ module.exports = {
     }
   },
 
-  // [post] http://localhost:3000/api/auth/:id
+  // [post] http://localhost:3000/api/auth
   auth: function(req, res) {
     console.log('[post] /api/auth 호출됨.');
 
@@ -257,6 +265,7 @@ module.exports = {
   },
 
   // [post] http://localhost:3000/api/list
+  // [get] http://localhost:3000/api/list/:page/:perPage
   // [get] http://localhost:3000/api/list?page=0&perPage=2
   list: function(req, res) {
     console.log('[get | post] /api/list 호출됨.');
@@ -265,8 +274,8 @@ module.exports = {
     // count: 전체 글의 개수
     // pageCount: 전체 페이지 수. Math.ceil(count / perPage)
 
-    var page = req.body.page || req.query.page || 0;
-    var perPage = req.body.perPage || req.query.perPage || 2;
+    var page = req.body.page || req.query.page || req.params.page || 0;
+    var perPage = req.body.perPage || req.query.perPage || req.params.perPage || 2;
     var database = req.app.get('database');
 
     if (database.db) {

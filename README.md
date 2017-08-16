@@ -7,6 +7,9 @@
 * 따라서 서버는 es5로 작업하고 별도로 $ npm run dev-server 명령으로 서버를 3000포트에 실행
 * 클라이언트는 es6와 리액트로 작업하고 $ npm run dev-client 명령으로 웹펙뎁서버 4000포트로 실행함
 * 헤로쿠에 업로드시에는 $ npm run start 명령으로 실행. 이때 빌드된 인덱스 파일로 연결이 필요함. 이후 작업할 것
+* api를 만들었으나 호출시 포트가 달라 Access-Control-Allow-Origin 해더가 있어야 한다는 에러가 발생함. 이에 npm cors 모듈을 설치하여 해결함: https://www.npmjs.com/package/cors#simple-usage-enable-all-cors-requests
+
+
 
 `webpack`을 사용하는 자바스크립트 프로젝트 빌드를 생성하는 과정을 정리하였다. 또한 이 레파지토리는 프로젝트 진행시 기본 스타트 팩으로 활용할 수 있도록 하려고 한다.  
 

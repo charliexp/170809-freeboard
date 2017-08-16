@@ -189,3 +189,88 @@ export const GET_VIDEO_DATA = {
   },
   dataType: 'jsonp'
 };
+
+/**
+* 게시판 쓰기
+*/
+export const WRITE_BOARD = {
+  localCache: false,
+  host: 'http://localhost:3000/api/write',
+  QueryParameters: {
+    writer: '',
+    title: '',
+    content: '',
+    password: ''
+  },
+  type: 'POST'
+};
+
+/**
+* 게시판 읽기
+*/
+export const READ_BOARD = {
+  localCache: false,
+  host: 'http://localhost:3000/api/read',
+  PathParameters: {
+    id: '',
+    type: ''
+  }
+};
+
+/**
+* 게시판 수정권한 체크
+*/
+export const AUTH_BOARD = {
+  localCache: false,
+  host: 'http://localhost:3000/api/auth',
+  QueryParameters: {
+    id: '',
+    password: ''
+  },
+  type: 'POST'
+};
+
+/**
+* 게시글 수정
+*/
+export const MODIFY_BOARD = {
+  localCache: false,
+  host: 'http://localhost:3000/api/modify',
+  PathParameters: {
+    id: ''
+  },
+  QueryParameters: {
+    writer: '',
+    title: '',
+    content: '',
+    password: ''
+  },
+  type: 'PUT'
+};
+
+/**
+* 게시글 삭제
+*/
+export const DELETE_BOARD = {
+  localCache: false,
+  host: 'http://localhost:3000/api/delete',
+  PathParameters: {
+    id: ''
+  },
+  QueryParameters: {
+    password: ''
+  },
+  type: 'DELETE'
+};
+
+/**
+* 게시판 리스트
+*/
+export const LIST_BOARD = {
+  localCache: false,
+  host: 'http://localhost:3000/api/list',
+  PathParameters: {
+    page: '',
+    perPage: ''
+  }
+};

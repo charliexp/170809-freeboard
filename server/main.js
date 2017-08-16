@@ -3,6 +3,7 @@
 */
 var bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
+  cors = require('cors'),
   express = require('express'),
   expressErrorHandler = require('express-error-handler'),
   expressSession = require('express-session'),
@@ -25,6 +26,7 @@ app.use(expressSession({
   resave: true, // 세션을 언제나 저장할 지 (변경되지 않아도) 정하는 값입니다. express-session documentation에서는 이 값을 false 로 하는것을 권장하고 필요에 따라 true로 설정합니다.
   saveUninitialized: true // 세션이 저장되기 전에 uninitialized 상태로 미리 만들어서 저장합니다.
 }));
+app.use(cors());
 
 route_loader(app);
 

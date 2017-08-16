@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { writeBoard } from 'actions/board';
+import { modifyBoard, readBoard } from 'actions/board';
 
-class Write extends Component {
+class Modify extends Component {
   constructor(props) {
     super(props);
 
@@ -28,18 +28,40 @@ class Write extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.writeBoard(this.state)
+    this.props.modifyBoard(
+      this.props.match.params.id,
+      this.state.writer,
+      this.state.title,
+      this.state.content,
+      this.state.password
+    )
+    .then(() => {
+
+    });
+  }
+
+  componentDidMount() {
+    this.props.readBoard(this.props.match.params.id, 'modify')
       .then(() => {
+        const data = this.props.response && this.props.response.results || {};
+
+        this.setState({
+          writer: data.writer,
+          title: data.title,
+          content: data.content
+        });
       });
   }
 
   render() {
+    const data = this.props.response && this.props.response.results || {};
+
     return(
       <div>
         {
-          this.props.status === 'WRITE_SUCCESS' ? <Redirect to={`/board/read/${this.props.response.id}`} /> : undefined
+          this.props.status === 'MODIFY_SUCCESS' ? <Redirect to={`/board/read/${this.props.match.params.id}`} /> : undefined
         }
-        <h2>Write</h2>
+        <h2>Modify</h2>
         <div className="">
           <form action="" method="" onSubmit={this.handleSubmit}>
             <div className="form-group row">
@@ -88,7 +110,7 @@ class Write extends Component {
                   className="form-control"
                   id="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Confirm Password"
                   value={this.state.password}
                   onChange={this.handleChange}></input>
               </div>
@@ -101,11 +123,11 @@ class Write extends Component {
   }
 }
 
-Write.propTypes = {
+Modify.propTypes = {
   myProp: PropTypes.string
 };
 
-Write.defaultProps = {
+Modify.defaultProps = {
   myProp: 'some value'
 };
 
@@ -116,10 +138,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    writeBoard: (data) => {
-      return dispatch(writeBoard(data));
+    modifyBoard: (id, writer, title, content, password) => {
+      return dispatch(modifyBoard(id, writer, title, content, password));
+    },
+    readBoard: (id, type) => {
+      return dispatch(readBoard(id, type));
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Write);
+export default connect(mapStateToProps, mapDispatchToProps)(Modify);

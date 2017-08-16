@@ -50,12 +50,15 @@ var Schema = {
 
     BoardSchema.statics = {
       // ID로 글찾기
-      read: function(id, callback) {
+      read: function(id, type, callback) {
         this.findOne({_id: id}, function(err, result) {
           if (err) {
             return callback(err, null);
           }
           if (result) {
+            if (type === 'read') { // 수정모드에서도 이 메소드가 실행되므로 읽기에서만 뷰 카운트 올라가야함.
+              result.viewCount(1);
+            }
             console.log(result);
             var _result = {
               _id: result._id,
