@@ -8,6 +8,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { authBoard, deleteBoard, readBoard } from 'actions/board';
 import { CheckPassword } from 'components';
 import * as utils from 'lib/utils';
+import Toast from 'lib/Toast';
 
 const formatter = buildFormatter(koreaStrings);
 
@@ -35,12 +36,20 @@ class Read extends Component {
     const promise = this.props.authBoard(this.props.match.params.id, password)
     promise.then(() => {
       if (this.state.type === 'delete') { // 삭제 모드시
-        const promise = this.props.deleteBoard(this.props.match.params.id, password);
-        promise.then(() => {
-          if (this.props.status === 'DELETE_SUCCESS') {
-            $(location).attr('href', '#/board/0');
-          }
-        });
+        if (this.props.status === 'AUTH_FAILURE') {
+          new Toast().on(this.props.error.responseJSON.error, 2000);
+        } else {
+          const promise = this.props.deleteBoard(this.props.match.params.id, password);
+          promise.then(() => {
+            if (this.props.status === 'DELETE_SUCCESS') {
+              $(location).attr('href', '#/board/0');
+            }
+          });
+        }
+      } else { // modify
+        if (this.props.status === 'AUTH_FAILURE') {
+          new Toast().on(this.props.error.responseJSON.error, 2000);
+        }
       }
     });
   }

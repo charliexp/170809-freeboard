@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { writeBoard } from 'actions/board';
+import Toast from 'lib/Toast';
 
 class Write extends Component {
   constructor(props) {
@@ -30,6 +31,9 @@ class Write extends Component {
 
     this.props.writeBoard(this.state)
       .then(() => {
+        if (this.props.status === 'WRITE_FAILURE') {
+          new Toast().on(this.props.error.responseJSON.error, 2000);
+        }
       });
   }
 

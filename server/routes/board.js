@@ -129,7 +129,7 @@ module.exports = {
             });
           } else {
             return res.status(403).json({
-              error: '수정 권한이 없습니다.'
+              error: '권한이 없습니다.'
             });
           }
         } else {
