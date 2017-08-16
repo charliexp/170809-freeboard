@@ -20,7 +20,7 @@ class Header extends Component {
         <div className="navi">
           <NavLink to="/about" activeClassName="on">about</NavLink>
           <NavLink to="/fake" activeClassName="on">fake</NavLink>
-          <NavLink to="/board" activeClassName="on">board</NavLink>
+          <NavLink to="/board/0" activeClassName="on">board</NavLink>
         </div>
       </div>
     );

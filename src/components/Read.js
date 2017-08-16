@@ -7,6 +7,7 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { Link, Redirect } from 'react-router-dom';
 import { authBoard, deleteBoard, readBoard } from 'actions/board';
 import { CheckPassword } from 'components';
+import * as utils from 'lib/utils';
 
 const formatter = buildFormatter(koreaStrings);
 
@@ -81,7 +82,7 @@ class Read extends Component {
                 view: {data.view_count}</h6>
             </div>
             <div className="card-body">
-              <p className="card-text">{data.content}</p>
+              <p className="card-text" dangerouslySetInnerHTML={{__html: utils.nl2br(data.content)}}></p>
               <Link to={`/board/${0}`} className="btn btn-primary mr-1">목록</Link>
               <a href="#"
                 className="btn btn-primary mr-1"

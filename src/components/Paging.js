@@ -34,8 +34,17 @@ class Paging extends Component {
     }
 
     this.setState({
-      pagingAr: pagingAr
+      pagingAr: pagingAr,
+      page: this.props.page
     });
+  }
+
+  // 페이징의 블럭 이동 버튼 제어를 링크 형식으로 바꾸어 해당 블럭의 첫 리스트가 로드되도로 함.
+  newHandleBlock = (num, e) => {
+    e.preventDefault();
+    this.blockIdx += num;
+    let pagingStartIndex = this.props.pageCount - (this.props.pageCount - (this.props.maxPagingLen * this.blockIdx));
+    $(location).attr('href', `#/board/${pagingStartIndex}`);
   }
 
   initPages = () => {
@@ -62,16 +71,18 @@ class Paging extends Component {
 
   componentDidMount() {
     this.initPages();
-
   }
 
   render() {
+    let getPage = () => {
+      return this.props.page;
+    }
     return(
       <div id="paging" className="">
         <nav aria-label="Page navigation example" className="d-inline-block">
           <ul className="pagination">
             <li className={classNames("page-item", {disabled: this.firstFlag})}>
-              <a className="page-link" href="#" aria-label="Previous" onClick={this.handleBlock.bind(null, -1)}>
+              <a className="page-link" href="#" aria-label="Previous" onClick={this.newHandleBlock.bind(null, -1)}>
                 <span aria-hidden="true">&laquo;</span>
                 <span className="sr-only">Previous</span>
               </a>
@@ -79,16 +90,20 @@ class Paging extends Component {
             {
               this.state.pagingAr && this.state.pagingAr.map(function(value, index) {
                 return (
-                  <li className="page-item" key={index}>
+                  <li
+                    className={classNames('page-item', {active: getPage() == (value-1) ? true : false})}
+                    key={index}>
                     <Link to={`/board/${value-1}`} className="page-link">{value}</Link>
                   </li>
                 );
               })
             }
             <li className={classNames("page-item", {disabled: this.lastFlag})}>
-              <a className="page-link" href="#" aria-label="Next" onClick={this.handleBlock.bind(null, 1)}>
+              <a className="page-link" href="#" aria-label="Next" onClick={this.newHandleBlock.bind(null, 1)}>
+                {/*<Link to={`/board/3`} className="page-link" aria-label="Next">*/}
                 <span aria-hidden="true">&raquo;</span>
                 <span className="sr-only">Next</span>
+                {/*</Link>*/}
               </a>
             </li>
           </ul>
@@ -105,7 +120,7 @@ Paging.propTypes = {
 };
 
 Paging.defaultProps = {
-  maxPagingLen: 2
+  maxPagingLen: 3
 };
 
 export default Paging;
