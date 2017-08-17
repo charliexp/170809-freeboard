@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { modifyBoard, readBoard } from 'actions/board';
+import Toast from 'lib/Toast';
 
 class Modify extends Component {
   constructor(props) {
@@ -36,7 +37,9 @@ class Modify extends Component {
       this.state.password
     )
     .then(() => {
-
+      if (this.props.status === 'MODIFY_FAILURE') {
+        new Toast().on(this.props.error.responseJSON.error, 2000);
+      }
     });
   }
 

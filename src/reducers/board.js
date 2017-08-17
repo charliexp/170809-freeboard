@@ -46,16 +46,17 @@ export default function(state = initialState, action = {}) {
       });
 
     // check auth
+    /** @desc 권한 체크시에는 response를 리셋하면 기존 읽기 모드에서 보고 있던 내용이 날아감. 어차피 response를 사용하지 않으므로 리셋하지 않도록 함.*/
     case types.BOARD_AUTH:
       return update(state, {
         status: { $set: 'AUTH_WAITING' },
-        response: { $set: null },
+        //response: { $set: null },
         error: { $set: null }
       });
     case types.BOARD_AUTH_SUCCESS:
       return update(state, {
         status: { $set: 'AUTH_SUCCESS' },
-        response: { $set: action.response }
+        //response: { $set: action.response }
       });
     case types.BOARD_AUTH_FAILURE:
       return update(state, {
