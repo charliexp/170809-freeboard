@@ -28,7 +28,7 @@ class Comment extends Component {
     //e.preventDefault();
     if (e.target) {
       this.setState({
-        commentId: e.target.name
+        commentId: e.currentTarget.name
       });
     }
     this.setState({
