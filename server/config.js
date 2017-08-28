@@ -17,5 +17,8 @@ module.exports = {
     {file: './board', path: '/api/list/:page/:perPage', method: 'list', type: 'get'},
     {file: './board', path: '/api/modify/:id', method: 'modify', type: 'put'},
     {file: './board', path: '/api/delete/:id', method: 'delete', type: 'delete'},
+
+    {file: './board', path: '/api/board/writeComment/:id', method: 'writeComment', type: 'post'},
+    {file: './board', path: '/api/board/deleteComment/:id/:commentId', method: 'deleteComment', type: 'delete'},
   ]
 };

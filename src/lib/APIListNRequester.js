@@ -6,6 +6,8 @@
  * --------------------------------------------------
  */
 
+ const HOST = 'http://localhost:3000/api/';
+
 export default function ApiRequest(aipOptions) {
   if (!aipOptions) {
     return;
@@ -195,7 +197,7 @@ export const GET_VIDEO_DATA = {
 */
 export const WRITE_BOARD = {
   localCache: false,
-  host: 'http://localhost:3000/api/write',
+  host: HOST + 'write',
   QueryParameters: {
     writer: '',
     title: '',
@@ -210,7 +212,7 @@ export const WRITE_BOARD = {
 */
 export const READ_BOARD = {
   localCache: false,
-  host: 'http://localhost:3000/api/read',
+  host: HOST + 'read',
   PathParameters: {
     id: '',
     type: ''
@@ -222,7 +224,7 @@ export const READ_BOARD = {
 */
 export const AUTH_BOARD = {
   localCache: false,
-  host: 'http://localhost:3000/api/auth',
+  host: HOST + 'auth',
   QueryParameters: {
     id: '',
     password: ''
@@ -235,7 +237,7 @@ export const AUTH_BOARD = {
 */
 export const MODIFY_BOARD = {
   localCache: false,
-  host: 'http://localhost:3000/api/modify',
+  host: HOST + 'modify',
   PathParameters: {
     id: ''
   },
@@ -253,7 +255,7 @@ export const MODIFY_BOARD = {
 */
 export const DELETE_BOARD = {
   localCache: false,
-  host: 'http://localhost:3000/api/delete',
+  host: HOST + 'delete',
   PathParameters: {
     id: ''
   },
@@ -268,9 +270,42 @@ export const DELETE_BOARD = {
 */
 export const LIST_BOARD = {
   localCache: false,
-  host: 'http://localhost:3000/api/list',
+  host: HOST + 'list',
   PathParameters: {
     page: '',
     perPage: ''
   }
+};
+
+/**
+* 댓글 쓰기
+*/
+export const WRITE_COMMENT = {
+  localCache: false,
+  host: HOST + 'board/writeComment',
+  PathParameters: {
+    id: ''
+  },
+  QueryParameters: {
+    writer: '',
+    content: '',
+    password: ''
+  },
+  type: 'POST'
+};
+
+/**
+* 댓글 삭제
+*/
+export const DELETE_COMMENT = {
+  localCache: false,
+  host: HOST + 'board/deleteComment',
+  PathParameters: {
+    id: '',
+    commentId: ''
+  },
+  QueryParameters: {
+    password: ''
+  },
+  type: 'DELETE'
 };

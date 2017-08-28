@@ -4,7 +4,7 @@ module.exports = {
   write: function(req, res) {
     console.log('[post] /api/write 호출됨.');
 
-    var writer = req.body.writer || req.query.content;
+    var writer = req.body.writer || req.query.writer;
     var title = req.body.title || req.query.title;
     var content = req.body.content || req.query.content;
     var password = req.body.password || req.query.password;
@@ -299,6 +299,118 @@ module.exports = {
         } else {
           return res.status(416).json({
             error: '해당 글목록이 존재하지 않습니다.'
+          });
+        }
+      });
+    } else {
+      failedDBConnect(res);
+    }
+  },
+
+  // [post] http://localhost:3000/api/board/writeComment/:id
+  writeComment: function(req, res) {
+    console.log('[post] /api/board/writeComment 호출됨.');
+
+    var id = req.body.id || req.query.id || req.params.id;
+    var writer = req.body.writer || req.query.writer;
+    var content = req.body.content || req.query.content;
+    var password = req.body.password || req.query.password;
+    var database = req.app.get('database');
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        error: '잘못된 ID입니다.'
+      });
+    }
+
+    if (typeof writer !== 'string' || writer.trim() === '') {
+      return res.status(400).json({
+        error: '작성자를 입력해주세요.'
+      });
+    }
+
+    if (typeof content !== 'string' || content.trim() === '') {
+      return res.status(400).json({
+        error: '내용을 입력해주세요.'
+      });
+    }
+
+    if (typeof password !== 'string' || password.trim() === '') {
+      return res.status(400).json({
+        error: '비밀번호를 입력해주세요.'
+      });
+    }
+
+    if (database.db) {
+      database.BoardModel.findById(id, function(err, result) {
+        if (err) throw err;
+
+        if (result) {
+          result.addComment(writer, content, password, function(err, result) {
+            if (err) throw err;
+            console.log('댓글 데이터 추가함.');
+            return res.json({
+              success: true,
+              result: result
+            });
+          });
+        } else {
+          return res.status(404).json({
+            error: '해당 글이 존재하지 않습니다.',
+            code: 4
+          });
+        }
+      });
+
+    } else {
+      failedDBConnect(res);
+    }
+  },
+
+  // [delete] http://localhost:3000/api/board/deleteComment/:id/:commentId
+  deleteComment: function(req, res) {
+    var id = req.body.id || req.query.id || req.params.id;
+    var commentId = req.body.commentId || req.query.commentId || req.params.commentId;
+    var password = req.body.password || req.query.password;
+    var database = req.app.get('database');
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        error: '잘못된 ID입니다.'
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(commentId)) {
+      return res.status(400).json({
+        error: '잘못된 ID입니다.'
+      });
+    }
+
+    if (typeof password !== 'string' || password.trim() === '') {
+      return res.status(400).json({
+        error: '비밀번호를 입력해주세요.'
+      });
+    }
+
+    if (database.db) {
+      database.BoardModel.findOne({_id: id}, function(err, result) {
+        if (err) throw err;
+        if (result) {
+          result.removeComment(commentId, password, function(err, result) {
+            if (err) {
+              //throw err;
+              return res.status(err.code).json({
+                error: err.msg
+              });
+            }
+            console.log('댓글 데이터 삭제함.');
+            return res.json({
+              success: true
+            });
+          });
+        } else {
+          return res.status(404).json({
+            error: '해당 댓글 존재하지 않습니다.'
           });
         }
       });

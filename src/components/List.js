@@ -56,7 +56,7 @@ class List extends Component {
                       <TimeAgo date={value.created_at} formatter={formatter} />
                     </td>
                     <td>{value.view_count}</td>
-                    <td>100</td>
+                    <td>{value.comments.length}</td>
                   </tr>
                 );
               })

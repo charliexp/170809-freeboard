@@ -11,8 +11,9 @@ var Schema = {
       updated_at: {type: Date, index: {unique: false}, 'default': Date.now},
       view_count: {type: Number, 'default': 0},
       comments: [{
-        writer: {type: mongoose.Schema.ObjectId, ref: 'users'},
+        writer: {type: String, trim: true, 'default': ''},
         content: {type: String, trim: true, 'default': ''},
+        hashed_password: {type: String, require: true, 'default': ''},
         created_at: {type: Date, 'default': Date.now}
       }]
     });
@@ -30,19 +31,24 @@ var Schema = {
           self.save(callback);
         });
       },
-      addComment: function(user, comment, callback) {
+      addComment: function(writer, content, password, callback) {
         this.comments.push({
-          content: comment.content,
-          writer: user._id
+          writer: writer,
+          content: content,
+          hashed_password: this.encryptPassword(password) // salt는 하나만 사용.
         });
         this.save(callback);
       },
-      removeComment: function(id, callback) {
-        var index = indexOf(this.comments, {id: id});
+      removeComment: function(commentId, password, callback) {
+        var index = indexOf(this.comments, {id: commentId});
         if (~index) {
-          this.comments.splice(index, 1);
+          if (this.authenticate(password, this.comments[index].hashed_password)) {
+            this.comments.splice(index, 1);
+          } else {
+            return callback({code: 403, msg: '삭제 권한이 없습니다.'});
+          }
         } else {
-          return callback('ID [' + id + '] 를 가진 댓글 객체를 찾을 수 없습니다.');
+          return callback({code:404, msg: '해당 댓글을 찾을 수 없습니다.'});
         }
         this.save(callback);
       }
@@ -59,10 +65,16 @@ var Schema = {
             if (type === 'read') { // 수정모드에서도 이 메소드가 실행되므로 읽기에서만 뷰 카운트 올라가야함.
               result.viewCount(1);
             }
-            console.log(result);
+
+            // hashed_password 제거후 전달
+            var comments = JSON.parse(JSON.stringify(result.comments)).map(function(value, index) {
+              delete value.hashed_password;
+              return value;
+            });
+
             var _result = {
               _id: result._id,
-              comments: result.comments,
+              comments: comments,
               view_count: result.view_count,
               updated_at: result.updated_at,
               created_at: result.created_at,
@@ -70,6 +82,7 @@ var Schema = {
               title: result.title,
               writer: result.writer
             };
+            
             return callback(null, _result);
           }
         });
@@ -102,7 +115,7 @@ var Schema = {
     });
 
     BoardSchema.method('authenticate', function(planeText, hashed_password) {
-      return this.encryptPassword(planeText) === hashed_password;
+        return this.encryptPassword(planeText) === hashed_password;
     });
 
     BoardSchema.method('viewCount', function(number) {
@@ -119,7 +132,7 @@ var Schema = {
 function indexOf(arr, obj) {
   var index = -1;
   var keys = Object.keys(obj);
-  var result = arr.filter(function(doc, idx) {
+  arr.filter(function(doc, idx) {
     var matched = 0;
     for (var i = keys.length - 1; i >= 0; i--) {
       if (doc[keys[i]] === obj[keys[i]]) {

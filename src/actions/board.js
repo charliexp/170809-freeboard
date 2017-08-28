@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import ApiRequest, { AUTH_BOARD, DELETE_BOARD, LIST_BOARD, MODIFY_BOARD, READ_BOARD, WRITE_BOARD } from 'lib/APIListNRequester';
+import ApiRequest, { AUTH_BOARD, DELETE_BOARD, DELETE_COMMENT, LIST_BOARD, MODIFY_BOARD, READ_BOARD, WRITE_BOARD, WRITE_COMMENT } from 'lib/APIListNRequester';
 import * as types from './ActionTypes';
 
 // write board
@@ -247,6 +247,93 @@ export function boardListSuccess(response) {
 export function boardListFailure(error) {
   return {
     type: types.BOARD_LIST_FAILURE,
+    error
+  };
+}
+
+// write comment
+export function writeComment(data) {
+  return (dispatch, getState) => {
+    dispatch(commentWrite());
+    console.log('writeComment', data);
+    return ApiRequest(update(WRITE_COMMENT, {
+        PathParameters: {
+          id: { $set: data.id },
+        },
+        QueryParameters: {
+          writer: { $set: data.writer },
+          content: { $set: data.content },
+          password: { $set: data.password }
+        }
+      }))
+      .then(response => {
+        dispatch(commentWriteSuccess(response));
+      })
+      .catch(error => {
+        dispatch(commentWriteFailure(error));
+      });
+  };
+}
+
+export function commentWrite() {
+  return {
+    type: types.BOARD_COMMENT_WRITE
+  };
+}
+
+export function commentWriteSuccess(response) {
+  return {
+    type: types.BOARD_COMMENT_WRITE_SUCCESS,
+    response
+  };
+}
+
+export function commentWriteFailure(error) {
+  return {
+    type: types.BOARD_COMMENT_WRITE_FAILURE,
+    error
+  };
+}
+
+// delete comment
+export function deleteComment(id, commentId, password) {
+  return (dispatch, getState) => {
+    dispatch(commentDelete());
+
+    return ApiRequest(update(DELETE_COMMENT, {
+        PathParameters: {
+          id: { $set: id },
+          commentId: { $set: commentId }
+        },
+        QueryParameters: {
+          password: { $set: password }
+        }
+      }))
+      .then(response => {
+        dispatch(commentDeleteSuccess(response));
+      })
+      .catch(error => {
+        dispatch(commentDeleteFailure(error));
+      });
+  };
+}
+
+export function commentDelete() {
+  return {
+    type: types.BOARD_COMMENT_DELETE
+  };
+}
+
+export function commentDeleteSuccess(response) {
+  return {
+    type: types.BOARD_COMMENT_DELETE_SUCCESS,
+    response
+  };
+}
+
+export function commentDeleteFailure(error) {
+  return {
+    type: types.BOARD_COMMENT_DELETE_FAILURE,
     error
   };
 }

@@ -117,6 +117,43 @@ export default function(state = initialState, action = {}) {
         status: { $set: 'LIST_FAILURE' },
         error: { $set: action.error }
       });
+
+    // write comment
+    case types.BOARD_COMMENT_WRITE:
+      return update(state, {
+        status: { $set: 'COMMENT_WRITE_WAITING' },
+        //response: { $set: null },
+        error: { $set: null }
+      });
+    case types.BOARD_COMMENT_WRITE_SUCCESS:
+      return update(state, {
+        status: { $set: 'COMMENT_WRITE_SUCCESS' },
+        response: { $set: action.response }
+      });
+    case types.BOARD_COMMENT_WRITE_FAILURE:
+      return update(state, {
+        status: { $set: 'COMMENT_WRITE_FAILURE' },
+        error: { $set: action.error }
+      });
+
+    // delete
+    case types.BOARD_COMMENT_DELETE:
+      return update(state, {
+        status: { $set: 'COMMENT_DELETE_WAITING' },
+        //response: { $set: null },
+        error: { $set: null }
+      });
+    case types.BOARD_COMMENT_DELETE_SUCCESS:
+      return update(state, {
+        status: { $set: 'COMMENT_DELETE_SUCCESS' },
+        response: { $set: action.response }
+      });
+    case types.BOARD_COMMENT_DELETE_FAILURE:
+      return update(state, {
+        status: { $set: 'COMMENT_DELETE_FAILURE' },
+        error: { $set: action.error }
+      });
+
     default:
       return state;
   }
