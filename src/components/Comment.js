@@ -45,7 +45,7 @@ class Comment extends Component {
     });
   }
 
-  // 삭제 버튼 클릭시
+  // 댓글쓰기 버튼 클릭시
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -65,6 +65,7 @@ class Comment extends Component {
       });
   }
 
+  // 삭제 버튼 클릭시
   handleDelete = (password) => {
     this.props.deleteComment(this.props.response.results._id, this.state.commentId, password)
       .then(() => {

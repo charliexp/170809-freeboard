@@ -1,4 +1,11 @@
 /**
+ * @name ApiListNRequester
+ * @desc 리액트 등은 redux가 있어 Datastore가 필요없다.
+ * 따라서 api만 호출 관리 할 수 있는 모듈이다.
+ * @version 2017.09.28
+ */
+
+/**
  * --------------------------------------------------
  *
  * API Request
@@ -6,7 +13,7 @@
  * --------------------------------------------------
  */
 
- const HOST = 'http://localhost:3000/api/';
+const HOST = 'http://localhost:3000/api/';
 
 export default function ApiRequest(aipOptions) {
   if (!aipOptions) {

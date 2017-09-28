@@ -59,7 +59,12 @@ class Read extends Component {
   }
 
   componentDidMount() {
+    console.log('Read componentDidMount:',this.props);
     this.props.readBoard(this.props.match.params.id, 'read');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('Read componentWillReceiveProps:',nextProps);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -74,12 +79,17 @@ class Read extends Component {
     };
 
     let update = JSON.stringify(current) !== JSON.stringify(next);
+    console.log('read shouldComponentUpdate:', update);
     return update;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('Read componentDidUpdate:',this.props);
   }
 
   render() {
     const data = this.props.response && this.props.response.results || {};
-    console.log('read data: ', data);
+    console.log('Read render: ', data);
     return(
       <div className="mb-4">
         {

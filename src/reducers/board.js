@@ -128,7 +128,7 @@ export default function(state = initialState, action = {}) {
     case types.BOARD_COMMENT_WRITE_SUCCESS:
       return update(state, {
         status: { $set: 'COMMENT_WRITE_SUCCESS' },
-        response: { $set: action.response }
+        //response: { $set: action.response }
       });
     case types.BOARD_COMMENT_WRITE_FAILURE:
       return update(state, {
@@ -146,7 +146,7 @@ export default function(state = initialState, action = {}) {
     case types.BOARD_COMMENT_DELETE_SUCCESS:
       return update(state, {
         status: { $set: 'COMMENT_DELETE_SUCCESS' },
-        response: { $set: action.response }
+        //response: { $set: action.response }
       });
     case types.BOARD_COMMENT_DELETE_FAILURE:
       return update(state, {
