@@ -1,5 +1,5 @@
 {
-  "name": "170802-micro-blog",
+  "name": "170809-freeboard",
   "version": "1.0.0",
   "description": "## 개요 `webpack`을 사용하는 자바스크립트 프로젝트 빌드를 생성하는 과정을 정리하였다. 또한 이 레파지토리는 프로젝트 진행시 기본 스타트 팩으로 활용할 수 있도록 하려고 한다.",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrisphotograph/170802-micro-blog.git"
+    "url": "git+https://github.com/chrisphotograph/170809-freeboard.git"
   },
   "keywords": [
     "javascript"
@@ -21,9 +21,9 @@
   "author": "chris",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/chrisphotograph/170802-micro-blog/issues"
+    "url": "https://github.com/chrisphotograph/170809-freeboard/issues"
   },
-  "homepage": "https://github.com/chrisphotograph/170802-micro-blog#readme",
+  "homepage": "https://github.com/chrisphotograph/170809-freeboard#readme",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-preset-stage-0": "^6.24.1",
